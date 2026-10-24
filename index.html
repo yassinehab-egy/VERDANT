@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VERDANT — The Future Is Renewable</title>
+<meta name="description" content="Green technology and the future of our planet: an interactive 3D journey.">
+<meta name="theme-color" content="#071C16">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500;12..96,800&family=Newsreader:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+/* ===== Variables & globals ===== */
+:root{--forest:#071C16;--forest2:#0c2a21;--em:#00D68F;--lime:#C5FF6A;--white:#F4F7F1;--sage:#9DB5A6;--r:22px;--f:'Bricolage Grotesque',system-ui,sans-serif;--s:'Newsreader',Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:var(--forest);color:var(--white);font:400 clamp(1rem,.95rem + .2vw,1.1rem)/1.6 var(--f);overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+:focus-visible{outline:2px solid var(--lime);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1240px,100% - 2.5rem);margin-inline:auto}
+section{position:relative;padding:clamp(5rem,12vw,10rem) 0}
+h1,h2,h3{font-weight:800;line-height:.95;letter-spacing:-.035em;text-transform:uppercase}
+h2{font-size:clamp(2.2rem,6.2vw,5.4rem)}
+.lead{color:var(--sage);max-width:46ch}
+.light{background:var(--white);color:var(--forest)}.light .lead{color:#4b6558}
+.serif{font-family:var(--s);font-style:italic;font-weight:400;text-transform:none;letter-spacing:-.01em}
+.sep{height:90px;margin-top:-1px;background:linear-gradient(var(--forest),var(--white))}.sep.rev{background:linear-gradient(var(--white),var(--forest))}
+.btn{display:inline-flex;align-items:center;gap:.6rem;padding:.95rem 1.6rem;border-radius:99px;font-weight:500;letter-spacing:.02em;transition:background .3s,color .3s,box-shadow .3s,transform .2s;will-change:transform}
+.btn.p{background:var(--lime);color:var(--forest)}.btn.p:hover{box-shadow:0 0 0 6px rgba(197,255,106,.18),0 12px 40px rgba(0,214,143,.25)}
+.btn.g{border:1px solid rgba(244,247,241,.3)}.btn.g:hover{background:rgba(244,247,241,.08);border-color:var(--em)}
+.btn:active{transform:scale(.97)!important}
+/* ===== Nav ===== */
+nav{position:fixed;inset:0 0 auto;z-index:80;transition:background .4s,backdrop-filter .4s,border-color .4s;border-bottom:1px solid transparent}
+nav.sc{background:rgba(7,28,22,.78);backdrop-filter:blur(16px);border-color:rgba(244,247,241,.08)}
+.nb{display:flex;align-items:center;justify-content:space-between;height:70px}
+.logo{display:flex;align-items:center;gap:.6rem;font-weight:800;letter-spacing:.18em}
+.links{display:flex;gap:2rem;list-style:none}
+.links a{position:relative;padding:.3rem 0;font-size:.95rem}
+.links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--lime);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.7,0,.2,1)}
+.links a:hover::after,.links a.on::after{transform:scaleX(1);transform-origin:left}
+.burger{display:none;width:44px;height:44px;position:relative;z-index:2}
+.burger i{position:absolute;left:11px;right:11px;height:2px;background:var(--white);transition:.35s}.burger i:first-child{top:17px}.burger i:last-child{top:25px}
+.burger[aria-expanded=true] i:first-child{top:21px;transform:rotate(45deg)}.burger[aria-expanded=true] i:last-child{top:21px;transform:rotate(-45deg)}
+@media(max-width:900px){.burger{display:block}.nb>.btn{display:none}
+.links{position:fixed;inset:0;background:var(--forest);flex-direction:column;justify-content:center;align-items:flex-start;padding:2rem 2rem;gap:1.4rem;clip-path:circle(0 at calc(100% - 40px) 35px);transition:clip-path .7s cubic-bezier(.7,0,.2,1);visibility:hidden}
+.links.open{clip-path:circle(150% at calc(100% - 40px) 35px);visibility:visible}.links a{font-size:2.4rem;font-weight:800}}
+/* ===== Hero ===== */
+#home{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:7rem 0 5rem;overflow:hidden;background:radial-gradient(120% 90% at 75% 40%,#0e3a2d,var(--forest) 60%)}
+#hero-cv{position:absolute;inset:0;width:100%;height:100%}
+.hero-in{position:relative;z-index:2;pointer-events:none}.hero-in a,.hero-in button{pointer-events:auto}
+h1{font-size:clamp(2.8rem,9.4vw,8.6rem);margin-bottom:1.6rem;text-shadow:0 4px 40px rgba(7,28,22,.7)}
+h1 .ln{display:block;overflow:hidden;padding-bottom:.06em}h1 .ln span{display:block}
+h1 .ln:last-child span{color:var(--lime)}
+.hero-in .lead{margin-bottom:2.2rem;text-shadow:0 2px 20px #071C16}
+.cta{display:flex;flex-wrap:wrap;gap:1rem}
+.scroll{position:absolute;bottom:1.6rem;left:50%;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.5rem;font-size:.75rem;color:var(--sage);transform:translateX(-50%)}
+.scroll b{width:1px;height:46px;background:linear-gradient(var(--lime),transparent);animation:sl 2s infinite}
+@keyframes sl{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.nowebgl{display:none;position:absolute;right:8%;top:20%;width:min(40vw,420px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#4dd8a2,#0b5a43 55%,#04120d);box-shadow:0 0 120px rgba(0,214,143,.3)}
+.nogl .nowebgl{display:block}
+/* ===== Manifesto ===== */
+.split{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(2rem,6vw,6rem);align-items:center}
+.manifest h2{margin-bottom:1.6rem}.manifest p+p{margin-top:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.6rem}.chips span{padding:.45rem 1rem;border:1px solid rgba(7,28,22,.25);border-radius:99px;font-size:.9rem}
+.compo{position:relative;aspect-ratio:4/5;border-radius:var(--r);background:linear-gradient(160deg,#0c2a21,#071C16);overflow:hidden;box-shadow:0 30px 80px rgba(7,28,22,.35)}
+.compo svg{position:absolute;inset:0;width:100%;height:100%}
+.compo .tag{position:absolute;left:1rem;bottom:1rem;right:1rem;font-size:.75rem;color:var(--sage);background:rgba(7,28,22,.7);backdrop-filter:blur(8px);padding:.6rem .9rem;border-radius:12px}
+.draw{stroke-dasharray:1;stroke-dashoffset:1}
+@media(max-width:860px){.split{grid-template-columns:1fr}.compo{aspect-ratio:1}}
+/* ===== Pillars ===== */
+.head{display:flex;justify-content:space-between;align-items:end;gap:2rem;flex-wrap:wrap;margin-bottom:3rem}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;perspective:1200px}
+.card{position:relative;text-align:left;padding:1.6rem;min-height:380px;border-radius:var(--r);border:1px solid rgba(244,247,241,.12);background:linear-gradient(170deg,rgba(244,247,241,.07),rgba(244,247,241,.02));display:flex;flex-direction:column;justify-content:space-between;transform-style:preserve-3d;transition:border-color .3s,background .3s,box-shadow .3s;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(300px circle at var(--mx,50%) var(--my,0%),var(--c),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
+.card:hover::before,.card:focus-visible::before{opacity:.22}
+.card:hover,.card.act{border-color:var(--c);box-shadow:0 30px 60px rgba(0,0,0,.35)}
+.card.act{background:linear-gradient(170deg,rgba(244,247,241,.12),rgba(244,247,241,.04))}
+.card svg.ic{width:84px;height:84px;transform:translateZ(40px)}
+.card h3{font-size:1.7rem;margin:1rem 0 .6rem;transform:translateZ(30px)}
+.card p{color:var(--sage);font-size:.95rem}
+.card .more{max-height:0;opacity:0;overflow:hidden;transition:.5s;color:var(--white);font-size:.9rem}
+.card.act .more{max-height:140px;opacity:1;margin-top:.7rem}
+.arr{margin-top:1.2rem;width:44px;height:44px;border-radius:50%;border:1px solid var(--c);display:grid;place-items:center;transition:.4s;color:var(--c)}
+.card:hover .arr{background:var(--c);color:var(--forest);transform:translateZ(40px) rotate(-45deg)}
+.card.act .arr{transform:rotate(90deg);background:var(--c);color:var(--forest)}
+@media(max-width:1000px){.cards{grid-template-columns:1fr 1fr}}@media(max-width:560px){.cards{grid-template-columns:1fr}.card{min-height:300px}}
+/* ===== Lab ===== */
+#lab{background:var(--forest2)}
+.stage{position:relative;height:clamp(420px,70vh,680px);border-radius:var(--r);overflow:hidden;border:1px solid rgba(244,247,241,.12);background:linear-gradient(#17483a,#0a241c)}
+.stage canvas{width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y}
+.tabs{display:flex;gap:.6rem;flex-wrap:wrap;margin:1.2rem 0}
+.tabs button{padding:.6rem 1.2rem;border-radius:99px;border:1px solid rgba(244,247,241,.25);transition:.3s}
+.tabs button:hover{border-color:var(--em)}.tabs button[aria-pressed=true]{background:var(--lime);color:var(--forest);border-color:var(--lime)}
+.panel{position:absolute;left:1rem;bottom:1rem;max-width:340px;padding:1.2rem 1.3rem;border-radius:18px;background:rgba(7,28,22,.72);backdrop-filter:blur(14px);border:1px solid rgba(244,247,241,.15);transition:opacity .4s,transform .4s}
+.panel h3{font-size:1.25rem;margin-bottom:.4rem}.panel p{font-size:.9rem;color:var(--sage)}
+.hint{position:absolute;top:1rem;right:1rem;font-size:.75rem;color:var(--sage);background:rgba(7,28,22,.6);padding:.4rem .8rem;border-radius:99px}
+/* ===== Stories ===== */
+.rail{display:flex;gap:1.2rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 max(1.25rem,calc((100vw - 1240px)/2)) 1.5rem;scrollbar-width:thin;scrollbar-color:var(--em) transparent;-webkit-overflow-scrolling:touch}
+.story{flex:0 0 min(78vw,440px);scroll-snap-align:center;border-radius:var(--r);overflow:hidden;background:#fff;border:1px solid rgba(7,28,22,.1);box-shadow:0 20px 50px rgba(7,28,22,.1)}
+.story .art{aspect-ratio:4/3;display:block;width:100%}
+.story div.t{padding:1.4rem}.story h3{font-size:1.5rem;margin-bottom:.5rem}.story p{color:#4b6558;font-size:.95rem}
+.bar{height:3px;background:rgba(7,28,22,.12);margin-top:1.4rem;border-radius:2px;overflow:hidden}.bar i{display:block;height:100%;width:20%;background:var(--em);transition:width .15s}
+/* ===== Dashboard ===== */
+.dash{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
+.met{padding:1.6rem;border-radius:var(--r);background:rgba(244,247,241,.05);border:1px solid rgba(244,247,241,.1);text-align:center}
+.met svg{width:150px;max-width:100%}.met .num{font-size:2.6rem;font-weight:800;letter-spacing:-.03em;color:var(--lime);margin-top:-5.4rem;position:relative;height:5.4rem;display:grid;place-items:center}
+.met h3{font-size:1.05rem;margin:1rem 0 .3rem}.met p{font-size:.85rem;color:var(--sage)}
+.trend{margin-top:1.1rem;padding:1.6rem;border-radius:var(--r);background:rgba(244,247,241,.05);border:1px solid rgba(244,247,241,.1)}
+.trend svg{width:100%;height:auto;display:block}
+.note{margin-top:1rem;font-size:.85rem;color:var(--sage);border-left:2px solid var(--lime);padding-left:.8rem}
+@media(max-width:1000px){.dash{grid-template-columns:1fr 1fr}}@media(max-width:520px){.dash{grid-template-columns:1fr}}
+/* ===== Future ===== */
+#future{min-height:90vh;display:flex;align-items:center;overflow:hidden;background:linear-gradient(#071C16,#0b3a2c 70%,#0e5a41)}
+#future h2{font-size:clamp(2.4rem,7.4vw,7rem);max-width:12ch;position:relative;z-index:2}
+#future .lead{position:relative;z-index:2;margin:1.6rem 0 2rem}
+.city{position:absolute;inset:auto 0 0 0;height:62%;width:100%}
+.city .l{position:absolute;inset:0;width:100%;height:100%}
+.sun{position:absolute;right:12%;top:12%;width:min(26vw,260px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#eaffc2,var(--lime) 40%,rgba(197,255,106,0) 70%);filter:blur(2px);opacity:.85}
+.pulse{animation:pu 2.6s infinite}@keyframes pu{0%{box-shadow:0 0 0 0 rgba(197,255,106,.5)}100%{box-shadow:0 0 0 22px rgba(197,255,106,0)}}
+/* ===== Calculator ===== */
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,4vw,3.5rem);margin-top:3rem}
+.box{padding:clamp(1.3rem,3vw,2.2rem);border-radius:var(--r);background:#fff;border:1px solid rgba(7,28,22,.1)}
+.fld{margin-bottom:1.5rem}.fld label{display:flex;justify-content:space-between;font-weight:500;margin-bottom:.5rem}
+input[type=range]{width:100%;accent-color:#00a870;height:28px}
+details{margin-top:1rem;font-size:.9rem;color:#4b6558}summary{cursor:pointer;font-weight:500;color:var(--forest)}
+.fac{display:grid;grid-template-columns:1fr 90px;gap:.5rem .8rem;margin-top:.8rem;align-items:center}
+.fac input{padding:.4rem .5rem;border:1px solid rgba(7,28,22,.25);border-radius:8px;font:inherit;width:100%}
+.total{font-size:clamp(3rem,8vw,5.5rem);font-weight:800;letter-spacing:-.04em;line-height:1}.total small{font-size:1rem;font-weight:400;color:#4b6558;letter-spacing:0}
+.row{margin-top:1.1rem}.row div{display:flex;justify-content:space-between;font-size:.9rem}.row .tr{height:10px;border-radius:6px;background:rgba(7,28,22,.08);margin-top:.3rem;overflow:hidden}.row .tr i{display:block;height:100%;width:0;border-radius:6px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.cmp{margin-top:1.4rem;padding:1rem;border-radius:14px;background:#eaf5e4;font-size:.92rem}
+.btn.d{background:var(--forest);color:var(--white)}.btn.d:hover{box-shadow:0 10px 30px rgba(7,28,22,.3)}
+@media(max-width:860px){.calc{grid-template-columns:1fr}}
+/* ===== Footer ===== */
+footer{position:relative;padding:5rem 0 2rem;overflow:hidden;background:#041410}
+.fg{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.4fr;gap:2.5rem}
+footer h4{font-size:.85rem;color:var(--sage);margin-bottom:1rem;font-weight:500}
+footer ul{list-style:none;display:grid;gap:.5rem}footer li a{color:var(--white);opacity:.85;transition:.3s}footer li a:hover{opacity:1;color:var(--lime)}
+.nl{display:flex;gap:.5rem;flex-wrap:wrap}.nl input{flex:1 1 180px;padding:.85rem 1.1rem;border-radius:99px;border:1px solid rgba(244,247,241,.25);background:rgba(244,247,241,.06);color:var(--white);font:inherit}
+.msg{min-height:1.5em;font-size:.85rem;margin-top:.6rem;color:var(--sage)}.msg.err{color:#ffb4a2}
+.fb{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-top:3.5rem;padding-top:1.5rem;border-top:1px solid rgba(244,247,241,.1);font-size:.85rem;color:var(--sage)}
+.vine{position:absolute;right:0;bottom:0;width:min(420px,60%);opacity:.5;pointer-events:none}
+@media(max-width:900px){.fg{grid-template-columns:1fr 1fr}}@media(max-width:520px){.fg{grid-template-columns:1fr}}
+#top{position:fixed;right:1.2rem;bottom:1.2rem;z-index:70;width:48px;height:48px;border-radius:50%;background:var(--lime);color:var(--forest);display:grid;place-items:center;opacity:0;transform:translateY(20px);pointer-events:none;transition:.4s}
+#top.show{opacity:1;transform:none;pointer-events:auto}
+/* cursor & loader */
+#cur{position:fixed;z-index:200;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border:1.5px solid var(--lime);border-radius:50%;pointer-events:none;mix-blend-mode:difference;transition:width .25s,height .25s,margin .25s,background .25s;display:none}
+#cur.h{width:64px;height:64px;margin:-32px 0 0 -32px;background:rgba(197,255,106,.25)}
+@media(hover:hover) and (pointer:fine){.cur-on #cur{display:block}}
+#load{position:fixed;inset:0;z-index:300;background:var(--forest);display:grid;place-items:center;transition:opacity .7s,visibility .7s}
+#load.done{opacity:0;visibility:hidden}#load span{display:block;width:140px;height:2px;background:rgba(244,247,241,.15);overflow:hidden;margin-top:1rem}#load span i{display:block;height:100%;background:var(--lime);animation:ld 1.1s ease-in-out infinite}
+@keyframes ld{0%{width:0;margin-left:0}50%{width:100%}100%{width:0;margin-left:100%}}
+.rv{opacity:1}.js .rv{opacity:0}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;transition-duration:.01ms!important}.js .rv{opacity:1}}
+</style>
+</head>
+<body>
+<div id="load" role="status" aria-live="polite"><div><div class="logo" style="justify-content:center">VERDANT</div><span><i></i></span></div></div>
+<div id="cur" aria-hidden="true"></div>
+
+<!-- ===== Navigation ===== -->
+<nav id="nav" aria-label="Primary"><div class="wrap nb">
+ <a class="logo" href="#home" aria-label="VERDANT home"><svg width="30" height="30" viewBox="0 0 32 32" fill="none" stroke="#C5FF6A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 26C6 12 14 5 27 5c0 13-7 21-21 21z"/><path d="M6 26 20 12"/><circle cx="20" cy="12" r="1.6" fill="#C5FF6A"/><path d="M13 19h5M16 16v5" opacity=".6"/></svg>VERDANT</a>
+ <ul class="links" id="menu">
+  <li><a href="#home">Home</a></li><li><a href="#innovations">Innovations</a></li><li><a href="#impact">Impact</a></li><li><a href="#solutions">Solutions</a></li><li><a href="#future">Future</a></li>
+ </ul>
+ <a class="btn p mag" href="#solutions">JOIN THE MOVEMENT</a>
+ <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><i></i><i></i></button>
+</div></nav>
+
+<main>
+<!-- ===== Hero ===== -->
+<section id="home" aria-label="Introduction">
+ <canvas id="hero-cv" aria-hidden="true"></canvas><div class="nowebgl" aria-hidden="true"></div>
+ <div class="wrap hero-in">
+  <h1 aria-label="The future is renewable."><span class="ln"><span>THE FUTURE</span></span><span class="ln"><span>IS RENEWABLE.</span></span></h1>
+  <p class="lead rv">Technology has the power to restore the balance between humanity and the planet. Discover the innovations reshaping our world.</p>
+  <div class="cta rv"><a class="btn p mag" href="#innovations">EXPLORE THE FUTURE</a><a class="btn g mag" href="#manifesto">OUR PLANET, OUR RESPONSIBILITY</a></div>
+ </div>
+ <a class="scroll" href="#manifesto" aria-label="Scroll to next section">Scroll<b></b></a>
+</section>
+
+<!-- ===== Manifesto ===== -->
+<section id="manifesto" class="light" style="padding-top:clamp(4rem,9vw,8rem)">
+ <div class="wrap split manifest">
+  <div>
+   <h2 class="rv">The planet needs a new operating system</h2>
+   <p class="serif rv" style="font-size:clamp(1.5rem,3vw,2.4rem);line-height:1.2;margin:1.2rem 0">We don't inherit the future. We engineer it.</p>
+   <p class="lead rv">Green technology is the set of tools that let people live well while using fewer resources. It starts with clean power, then reaches how we build, move, and reuse what we make.</p>
+   <p class="lead rv">None of it works alone. Renewable electricity runs smarter cities; efficient cities need fewer materials; recovered materials feed cleaner industry.</p>
+   <div class="chips rv"><span>Renewable energy</span><span>Sustainable infrastructure</span><span>Resource efficiency</span><span>Clean innovation</span></div>
+  </div>
+  <div class="compo rv" id="compo">
+   <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c2a21"/><stop offset="1" stop-color="#16604a"/></linearGradient></defs>
+    <rect width="400" height="500" fill="url(#sk)"/><circle class="par" data-s="-30" cx="300" cy="120" r="48" fill="#C5FF6A" opacity=".9"/>
+    <g class="par" data-s="20"><path d="M0 380Q100 300 200 360T400 330V500H0z" fill="#0f4a39"/></g>
+    <path d="M0 430Q120 360 230 420T400 400V500H0z" fill="#071C16"/>
+    <g stroke="#F4F7F1" stroke-width="3" stroke-linecap="round"><path d="M110 360V250M110 250l0-40M110 250l35 20M110 250l-35 20" class="spin" style="transform-origin:110px 250px"/><path d="M230 380V300M230 300l0-26M230 300l21 12M230 300l-21 12" class="spin2" style="transform-origin:230px 300px"/></g>
+    <g fill="none" stroke="#00D68F" stroke-width="2"><path class="draw" pathLength="1" d="M110 360C150 420 200 440 250 420S340 380 360 440"/><path class="draw" pathLength="1" d="M20 150C90 100 160 190 240 140S340 60 390 90" stroke="#C5FF6A"/><path class="draw" pathLength="1" d="M30 470H370" opacity=".5"/></g>
+    <g fill="#C5FF6A"><rect x="285" y="395" width="26" height="40" rx="3" opacity=".9"/><rect x="318" y="375" width="22" height="60" rx="3" opacity=".7"/><rect x="345" y="410" width="30" height="25" rx="3"/></g>
+   </svg>
+   <div class="tag">Illustration — a concept composition, not a data chart.</div>
+  </div>
+ </div>
+</section>
+<div class="sep rev" aria-hidden="true"></div>
+
+<!-- ===== Pillars ===== -->
+<section id="innovations" aria-labelledby="pt">
+ <div class="wrap">
+  <div class="head"><h2 id="pt" class="rv">The four pillars of green technology</h2><p class="lead rv">Select a card to see how each pillar works in practice.</p></div>
+  <div class="cards" id="cards"></div>
+ </div>
+</section>
+
+<!-- ===== 3D Lab ===== -->
+<section id="lab" aria-labelledby="lt">
+ <div class="wrap">
+  <div class="head"><h2 id="lt" class="rv">A miniature clean-energy landscape</h2><p class="lead rv">Drag to look around. Click a turbine, solar array, or building to see what it does.</p></div>
+  <div class="stage rv" id="stage">
+   <canvas id="lab-cv" aria-label="Interactive 3D landscape with wind turbines, solar panels and buildings" role="img"></canvas>
+   <div class="hint">Drag to orbit · tap objects</div>
+   <div class="panel" id="panel" aria-live="polite"><h3>Explore</h3><p>Pick a technology below or click it in the scene.</p></div>
+  </div>
+  <div class="tabs" role="group" aria-label="Technologies"><button data-k="wind" aria-pressed="false">Wind power</button><button data-k="solar" aria-pressed="false">Solar power</button><button data-k="city" aria-pressed="false">Smart buildings</button><button data-k="grid" aria-pressed="false">Energy flow</button></div>
+ </div>
+</section>
+
+<!-- ===== Stories ===== -->
+<section id="stories" class="light" aria-labelledby="st" style="padding-bottom:3rem">
+ <div class="wrap head"><h2 id="st" class="rv">Technology in action</h2><p class="lead rv">Five areas where clean ideas are already working. Swipe or scroll sideways.</p></div>
+ <div class="rail" id="rail" tabindex="0" aria-label="Stories, scroll horizontally"></div>
+ <div class="wrap"><div class="bar" aria-hidden="true"><i id="rbar"></i></div></div>
+</section>
+<div class="sep" aria-hidden="true"></div>
+
+<!-- ===== Impact ===== -->
+<section id="impact" aria-labelledby="it">
+ <div class="wrap">
+  <div class="head"><h2 id="it" class="rv">The impact dashboard</h2><p class="lead rv">A look at how progress could be tracked across four areas.</p></div>
+  <div class="dash" id="dash"></div>
+  <div class="trend rv"><h3 style="font-size:1rem;margin-bottom:1rem">Illustrative adoption curve</h3>
+   <svg viewBox="0 0 600 180" role="img" aria-label="Illustrative rising curve"><defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00D68F" stop-opacity=".35"/><stop offset="1" stop-color="#00D68F" stop-opacity="0"/></linearGradient></defs>
+   <path d="M0 160C100 150 180 140 260 110S420 40 600 20V180H0z" fill="url(#ag)"/><path id="curve" class="draw" pathLength="1" d="M0 160C100 150 180 140 260 110S420 40 600 20" fill="none" stroke="#C5FF6A" stroke-width="3"/></svg></div>
+  <p class="note">Illustrative dashboard values are demonstrations, not live measurements or real-world statistics.</p>
+ </div>
+</section>
+
+<!-- ===== Future ===== -->
+<section id="future" aria-labelledby="ft">
+ <div class="sun par" data-s="-60" aria-hidden="true"></div>
+ <div class="city" aria-hidden="true"><svg class="l par" data-s="40" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMax slice"><g fill="#0b4a38"><rect x="40" y="300" width="90" height="200"/><rect x="170" y="240" width="70" height="260"/><rect x="520" y="280" width="110" height="220"/><rect x="900" y="250" width="80" height="250"/><rect x="1030" y="320" width="120" height="180"/></g></svg>
+ <svg class="l par" data-s="15" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMax slice"><g fill="#062219"><path d="M80 500V330l60-50 60 50v170zM300 500V210l50-40 50 40v290zM440 500V280h90v220zM700 500V190l40-30 40 30v310zM820 500V300h110v220zM1000 500V260l70-40 70 40v240z"/></g><g fill="#C5FF6A" opacity=".85"><rect x="320" y="240" width="8" height="8"/><rect x="340" y="270" width="8" height="8"/><rect x="720" y="230" width="8" height="8"/><rect x="740" y="270" width="8" height="8"/><rect x="1030" y="300" width="8" height="8"/><rect x="460" y="320" width="8" height="8"/></g><g stroke="#00D68F" stroke-width="3" fill="none"><path d="M60 330h40M1010 260h40"/></g></svg></div>
+ <div class="wrap"><h2 id="ft" class="rv">Innovation is our most renewable resource.</h2><p class="lead rv">Every efficient building, shared ride, and recovered material makes the next idea cheaper to try. Start by seeing what your own choices add up to.</p><a class="btn p pulse mag rv" href="#solutions">TRY THE IMPACT CALCULATOR</a></div>
+</section>
+
+<!-- ===== Calculator ===== -->
+<section id="solutions" class="light" aria-labelledby="ct">
+ <div class="wrap">
+  <h2 id="ct" class="rv">Design a greener tomorrow</h2><p class="lead rv" style="margin-top:1rem">Adjust three everyday habits and compare estimates. Results are rough, not precise.</p>
+  <div class="calc">
+   <form class="box" id="calc" onsubmit="return false" aria-label="Impact calculator inputs">
+    <div class="fld"><label for="car">Car travel per week <output id="carO"></output></label><input id="car" type="range" min="0" max="800" step="10" value="200"></div>
+    <div class="fld"><label for="el">Household electricity per month <output id="elO"></output></label><input id="el" type="range" min="0" max="1200" step="10" value="300"></div>
+    <div class="fld"><label for="fl">Flights per year <output id="flO"></output></label><input id="fl" type="range" min="0" max="20" step="1" value="2"></div>
+    <details><summary>Assumptions and editable emission factors</summary>
+     <p style="margin-top:.6rem">Illustrative averages in kg CO₂e. Real values vary by vehicle, grid, and route. Edit them to match your situation.</p>
+     <div class="fac"><label for="fc">Car, per km</label><input id="fc" type="number" min="0" step="0.01" value="0.17"><label for="fe">Electricity, per kWh</label><input id="fe" type="number" min="0" step="0.01" value="0.40"><label for="ff">Per flight (round trip, average)</label><input id="ff" type="number" min="0" step="10" value="500"></div></details>
+    <button type="button" class="btn d mag" id="reset" style="margin-top:1.4rem">Reset to defaults</button>
+   </form>
+   <div class="box" aria-live="polite"><p style="color:#4b6558">Estimated yearly total</p><div class="total"><span id="tot">0</span> <small>kg CO₂e</small></div><p style="font-size:.8rem;color:#4b6558;margin-top:.4rem">Estimate only. Not a measurement.</p>
+    <div id="rows"></div><div class="cmp" id="cmp"></div></div>
+  </div>
+ </div>
+</section>
+</main>
+
+<!-- ===== Footer ===== -->
+<footer>
+ <svg class="vine" viewBox="0 0 400 200" fill="none" stroke="#00D68F" stroke-width="1.5" aria-hidden="true"><path class="draw" pathLength="1" d="M0 190C80 190 120 120 200 120S320 60 400 20"/><g fill="#C5FF6A" stroke="none"><circle cx="120" cy="150" r="5"/><circle cx="200" cy="120" r="6"/><circle cx="300" cy="78" r="5"/></g></svg>
+ <div class="wrap"><div class="fg">
+  <div><a class="logo" href="#home">VERDANT</a><p class="lead" style="margin-top:1rem;font-size:.95rem">Telling the story of technology that helps people and the planet thrive together.</p></div>
+  <div><h4>Navigate</h4><ul><li><a href="#home">Home</a></li><li><a href="#innovations">Innovations</a></li><li><a href="#impact">Impact</a></li><li><a href="#solutions">Solutions</a></li><li><a href="#future">Future</a></li></ul></div>
+  <div><h4>Technologies</h4><ul><li><a href="#innovations">Renewable energy</a></li><li><a href="#innovations">Smart cities</a></li><li><a href="#innovations">Circular economy</a></li><li><a href="#innovations">Green mobility</a></li></ul></div>
+  <div><h4>Newsletter (demo)</h4><form class="nl" id="nl" novalidate><label for="em" class="sr" style="position:absolute;left:-9999px">Email address</label><input id="em" type="email" placeholder="you@example.com" autocomplete="email"><button class="btn p" type="submit">Subscribe</button></form><p class="msg" id="msg" role="status"></p>
+   <div class="chips" style="margin-top:.4rem"><a href="https://example.com/verdant-x" aria-label="X (placeholder link)">X</a><a href="https://example.com/verdant-instagram" aria-label="Instagram (placeholder link)">Instagram</a><a href="https://example.com/verdant-linkedin" aria-label="LinkedIn (placeholder link)">LinkedIn</a></div></div>
+ </div>
+ <div class="fb"><span>© <span id="yr"></span> VERDANT. A concept website.</span><span>Social links are placeholders.</span></div></div>
+</footer>
+<a href="#home" id="top" aria-label="Back to top"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+/* ===== Utilities ===== */
+document.documentElement.classList.add('js');
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mobile=matchMedia('(max-width:800px)').matches;
+const hasGSAP=!!(window.gsap&&window.ScrollTrigger),hasTHREE=!!window.THREE;
+if(hasGSAP)gsap.registerPlugin(ScrollTrigger);
+function webgl(){try{const c=document.createElement('canvas');return !!(c.getContext('webgl2')||c.getContext('webgl'))}catch(e){return false}}
+const GL=hasTHREE&&webgl();
+if(!GL)$('#home').classList.add('nogl');
+$('#yr').textContent=new Date().getFullYear();
+const fmt=n=>Math.round(n).toLocaleString('en-US');
+const ICON=(d,c)=>`<svg class="ic" viewBox="0 0 64 64" fill="none" stroke="${c}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+
+/* ===== Loader ===== */
+let loaded=false;
+function hideLoader(){if(loaded)return;loaded=true;$('#load').classList.add('done');intro()}
+addEventListener('load',()=>setTimeout(hideLoader,250));setTimeout(hideLoader,3500);
+
+/* ===== Navigation ===== */
+const nav=$('#nav'),burger=$('#burger'),menu=$('#menu');
+function setMenu(o){menu.classList.toggle('open',o);burger.setAttribute('aria-expanded',o);burger.setAttribute('aria-label',o?'Close menu':'Open menu');document.body.style.overflow=o?'hidden':''}
+burger.onclick=()=>setMenu(burger.getAttribute('aria-expanded')!=='true');
+$$('a',menu).forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
+const secs=['home','innovations','impact','solutions','future'].map(id=>$('#'+id));
+function onScroll(){const y=scrollY;nav.classList.toggle('sc',y>40);$('#top').classList.toggle('show',y>innerHeight*1.2);
+ let cur='home';secs.forEach(s=>{if(s.getBoundingClientRect().top<innerHeight*.4)cur=s.id});
+ $$('.links a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur));
+ const r=$('#rail');if(r)$('#rbar').style.width=(20+80*r.scrollLeft/Math.max(1,r.scrollWidth-r.clientWidth))+'%'}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+$('#rail')&&0;
+
+/* ===== Pillars ===== */
+const PILLARS=[
+ {t:'Renewable Energy',c:'#C5FF6A',d:'Solar panels, wind turbines, and clean electricity.',m:'Sun and wind are replenished naturally. Storage and smart grids help match supply to demand.',i:'<circle cx="32" cy="32" r="9"/><path d="M32 8v8M32 48v8M8 32h8M48 32h8M15 15l6 6M43 43l6 6M49 15l-6 6M21 43l-6 6"/>'},
+ {t:'Smart Cities',c:'#00D68F',d:'Intelligent infrastructure, efficient transport, and connected urban systems.',m:'Sensors and data can cut wasted energy, water, and travel time when used with care for privacy.',i:'<path d="M8 54V28h12v26M20 54V14h16v40M36 54V32h12v22M4 54h56"/><path d="M26 22h4M26 30h4M26 38h4" opacity=".7"/>'},
+ {t:'Circular Economy',c:'#8fe7c4',d:'Recycling, reuse, material recovery, and waste reduction.',m:'Design products to last, be repaired, and return their materials to use rather than landfill.',i:'<path d="M48 22A18 18 0 0 0 16 24M16 42a18 18 0 0 0 32-2"/><path d="M16 12v12h12M48 52V40H36"/>'},
+ {t:'Green Mobility',c:'#ffe27a',d:'Electric transport, charging infrastructure, and lower-emission mobility.',m:'Electric vehicles, transit, and bikes reduce tailpipe emissions, especially on cleaner grids.',i:'<path d="M8 40l4-14h32l8 14v8H8z"/><circle cx="20" cy="48" r="5"/><circle cx="44" cy="48" r="5"/><path d="M30 8l-4 8h6l-4 8"/>'}];
+$('#cards').innerHTML=PILLARS.map((p,i)=>`<button class="card rv" style="--c:${p.c}" aria-expanded="false" data-i="${i}">${ICON(p.i,p.c)}<div><h3>${p.t}</h3><p>${p.d}</p><p class="more">${p.m}</p></div><span class="arr" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>`).join('');
+$$('.card').forEach(c=>{
+ c.addEventListener('click',()=>{const on=!c.classList.contains('act');$$('.card').forEach(x=>{x.classList.remove('act');x.setAttribute('aria-expanded','false')});c.classList.toggle('act',on);c.setAttribute('aria-expanded',on)});
+ if(!matchMedia('(hover:hover)').matches||reduce)return;
+ c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+  c.style.setProperty('--mx',x*100+'%');c.style.setProperty('--my',y*100+'%');c.style.transform=`rotateY(${(x-.5)*12}deg) rotateX(${(.5-y)*12}deg)`});
+ c.addEventListener('pointerleave',()=>c.style.transform='');
+});
+
+/* ===== Stories ===== */
+const ART=(bg,inner)=>`<svg class="art" viewBox="0 0 400 300" role="img" aria-hidden="true"><rect width="400" height="300" fill="${bg}"/>${inner}</svg>`;
+const STORIES=[
+ ['Solar energy','Photovoltaic cells turn sunlight directly into electricity. Rooftops, fields, and even windows can generate power.',ART('#d9f5c5','<circle cx="320" cy="70" r="36" fill="#C5FF6A"/><g fill="#0c3a2d"><path d="M60 230l50-70h120l-30 70z"/><path d="M150 230l50-70" stroke="#00D68F" stroke-width="2"/></g><path d="M110 160l-20 70M170 160l-20 70" stroke="#00D68F" stroke-width="2"/>')],
+ ['Wind energy','Turbines capture moving air with long blades. Offshore sites often have stronger, steadier wind.',ART('#cfeee4','<path d="M0 260Q120 200 240 245T400 230V300H0z" fill="#0f4a39"/><g stroke="#071C16" stroke-width="5" stroke-linecap="round"><path d="M200 250V130"/></g><g stroke="#071C16" stroke-width="5" stroke-linecap="round" class="spin" style="transform-origin:200px 130px"><path d="M200 130V60M200 130l-50 30M200 130l50 30"/></g>')],
+ ['Sustainable architecture','Good design cuts energy use through insulation, daylight, natural ventilation, and low-carbon materials.',ART('#e6efe0','<path d="M80 250V120h110v130M190 250V80h120v170" fill="#0f4a39"/><g fill="#C5FF6A"><rect x="105" y="145" width="20" height="20"/><rect x="145" y="145" width="20" height="20"/><rect x="215" y="110" width="20" height="20"/><rect x="265" y="110" width="20" height="20"/></g><path d="M80 120h110M190 80h120" stroke="#00D68F" stroke-width="6"/>')],
+ ['Electric mobility','Electric motors convert energy to motion efficiently. Public transit, bikes, and shared vehicles do even more.',ART('#d5ece4','<path d="M60 200l20-45h160l50 45v25H60z" fill="#071C16"/><circle cx="110" cy="228" r="20" fill="#0f4a39" stroke="#C5FF6A" stroke-width="5"/><circle cx="260" cy="228" r="20" fill="#0f4a39" stroke="#C5FF6A" stroke-width="5"/><path d="M300 90l-24 40h22l-16 38" stroke="#00D68F" stroke-width="6" fill="none" stroke-linejoin="round"/>')],
+ ['Water conservation','Drip irrigation, leak detection, and water reuse stretch limited supplies.',ART('#cde9f0','<path d="M200 50C160 110 140 140 140 180a60 60 0 0 0 120 0c0-40-20-70-60-130z" fill="#0f4a39"/><path d="M175 185a28 28 0 0 0 28 28" stroke="#C5FF6A" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M40 260h320" stroke="#00D68F" stroke-width="4"/>')]];
+$('#rail').innerHTML=STORIES.map(s=>`<article class="story">${s[2]}<div class="t"><h3>${s[0]}</h3><p>${s[1]}</p></div></article>`).join('');
+$('#rail').addEventListener('scroll',onScroll,{passive:true});
+$$('.spin').forEach(e=>e.animate([{transform:'rotate(0)'},{transform:'rotate(360deg)'}],{duration:6000,iterations:Infinity}));
+$$('.spin2').forEach(e=>e.animate([{transform:'rotate(0)'},{transform:'rotate(-360deg)'}],{duration:4500,iterations:Infinity}));
+
+/* ===== Dashboard (illustrative) ===== */
+const MET=[['Renewable energy adoption',62,'Share of power from clean sources (demo)'],['Clean transportation',41,'Trips by low-emission modes (demo)'],['Resource efficiency',78,'Materials recovered or reused (demo)'],['Environmental restoration',55,'Restoration goals reached (demo)']];
+$('#dash').innerHTML=MET.map((m,i)=>`<div class="met rv"><svg viewBox="0 0 120 120" role="img" aria-label="${m[0]}: ${m[1]} percent, illustrative"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(244,247,241,.1)" stroke-width="9"/><circle class="ring" data-v="${m[1]}" cx="60" cy="60" r="50" fill="none" stroke="${i%2?'#00D68F':'#C5FF6A'}" stroke-width="9" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" transform="rotate(-90 60 60)"/></svg><div class="num"><span class="cnt" data-v="${m[1]}">0</span><small style="font-size:1rem">%</small></div><h3>${m[0]}</h3><p>${m[2]}</p></div>`).join('');
+
+/* ===== Calculator ===== */
+const D={car:200,el:300,fl:2,fc:.17,fe:.4,ff:500};let shown=0;
+function calc(){const g=id=>parseFloat($('#'+id).value)||0;
+ $('#carO').textContent=g('car')+' km';$('#elO').textContent=g('el')+' kWh';$('#flO').textContent=g('fl');
+ const p=[['Car travel',g('car')*52*g('fc'),'#00D68F'],['Electricity',g('el')*12*g('fe'),'#C5FF6A'],['Flights',g('fl')*g('ff'),'#0c5a43']],t=p.reduce((a,b)=>a+b[1],0),mx=Math.max(...p.map(x=>x[1]),1);
+ $('#rows').innerHTML=p.map(x=>`<div class="row"><div><span>${x[0]}</span><b>${fmt(x[1])} kg</b></div><div class="tr"><i style="background:${x[2]};width:${x[1]/mx*100}%"></i></div></div>`).join('');
+ const trees=t/20;$('#cmp').textContent=t?`Roughly ${fmt(trees)} trees growing for a year might absorb this much, using a rough figure of ~20 kg CO₂ per tree. Treat it as a comparison, not a promise.`:'Move a slider to see an estimate.';
+ if(hasGSAP&&!reduce){const o={v:shown};gsap.to(o,{v:t,duration:.6,overwrite:true,onUpdate:()=>$('#tot').textContent=fmt(o.v)});}else $('#tot').textContent=fmt(t);shown=t}
+$$('#calc input').forEach(i=>i.addEventListener('input',calc));
+$('#reset').onclick=()=>{Object.entries(D).forEach(([k,v])=>$('#'+k).value=v);calc()};calc();
+
+/* ===== Newsletter (demo, no backend) ===== */
+$('#nl').addEventListener('submit',e=>{e.preventDefault();const v=$('#em').value.trim(),m=$('#msg'),ok=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+ m.className='msg'+(ok?'':' err');m.textContent=ok?'Looks valid, but this demo form does not send or store subscriptions.':'Enter a valid email address, like name@example.com.'});
+
+/* ===== Cursor, magnetic buttons ===== */
+if(matchMedia('(hover:hover) and (pointer:fine)').matches&&!reduce){
+ document.body.classList.add('cur-on');const cur=$('#cur');let tx=0,ty=0,cx=0,cy=0,raf;
+ addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY},{passive:true});
+ (function lp(){cx+=(tx-cx)*.2;cy+=(ty-cy)*.2;cur.style.transform=`translate(${cx}px,${cy}px)`;raf=requestAnimationFrame(lp)})();
+ document.addEventListener('pointerover',e=>cur.classList.toggle('h',!!e.target.closest('a,button,input,summary')));
+ $$('.mag').forEach(b=>{b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.25}px,${(e.clientY-r.top-r.height/2)*.35}px)`});b.addEventListener('pointerleave',()=>b.style.transform='')});
+}
+
+/* ===== GSAP choreography ===== */
+function intro(){
+ if(!hasGSAP||reduce){$$('.rv').forEach(e=>e.style.opacity=1);return}
+ const tl=gsap.timeline({defaults:{ease:'power4.out'}});
+ tl.from('#nav',{yPercent:-100,duration:.9}).from('h1 .ln span',{yPercent:110,duration:1.2,stagger:.18},'-=.5')
+   .to('#home .rv',{opacity:1,y:0,duration:1,stagger:.15},'-=.7').from('.scroll',{opacity:0,duration:1},'-=.4');
+ gsap.set('#home .rv',{y:24});
+}
+if(hasGSAP&&!reduce){
+ $$('.rv').forEach(el=>{if(el.closest('#home'))return;
+  const card=el.classList.contains('card')||el.classList.contains('met')||el.classList.contains('story');
+  gsap.fromTo(el,card?{opacity:0,y:60,clipPath:'inset(12% 0 0 0 round 22px)'}:{opacity:0,y:36},{opacity:1,y:0,clipPath:card?'inset(0% 0 0 0 round 22px)':'none',duration:card?1.1:.9,ease:card?'expo.out':'power3.out',scrollTrigger:{trigger:el,start:'top 88%',once:true}})});
+ $$('.draw').forEach(p=>gsap.to(p,{strokeDashoffset:0,duration:2,ease:'power2.inOut',scrollTrigger:{trigger:p,start:'top 90%',once:true}}));
+ $$('.par').forEach(p=>gsap.to(p,{y:parseFloat(p.dataset.s),ease:'none',scrollTrigger:{trigger:p.closest('section'),start:'top bottom',end:'bottom top',scrub:true}}));
+ $$('.ring').forEach(r=>gsap.to(r,{strokeDashoffset:100-r.dataset.v,duration:1.8,ease:'power3.out',scrollTrigger:{trigger:r,start:'top 90%',once:true}}));
+ $$('.cnt').forEach(c=>{const o={v:0};gsap.to(o,{v:+c.dataset.v,duration:1.8,ease:'power2.out',onUpdate:()=>c.textContent=Math.round(o.v),scrollTrigger:{trigger:c,start:'top 90%',once:true}})});
+ gsap.to('#hero-cv',{yPercent:12,ease:'none',scrollTrigger:{trigger:'#home',start:'top top',end:'bottom top',scrub:true}});
+}else{
+ $$('.draw').forEach(p=>p.style.strokeDashoffset=0);$$('.ring').forEach(r=>r.style.strokeDashoffset=100-r.dataset.v);$$('.cnt').forEach(c=>c.textContent=c.dataset.v);
+}
+
+/* ===== Three.js: shared helpers ===== */
+function runWhenVisible(el,start,stop){const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?start():stop()),{rootMargin:'100px'});io.observe(el)}
+function sizeRenderer(r,cv,cam){const w=cv.clientWidth,h=cv.clientHeight;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+function noise3(x,y,z){const h=(a,b,c)=>{let n=Math.sin(a*127.1+b*311.7+c*74.7)*43758.5453;return n-Math.floor(n)};
+ const ix=Math.floor(x),iy=Math.floor(y),iz=Math.floor(z),fx=x-ix,fy=y-iy,fz=z-iz,u=t=>t*t*(3-2*t),l=(a,b,t)=>a+(b-a)*t;
+ return l(l(l(h(ix,iy,iz),h(ix+1,iy,iz),u(fx)),l(h(ix,iy+1,iz),h(ix+1,iy+1,iz),u(fx)),u(fy)),l(l(h(ix,iy,iz+1),h(ix+1,iy,iz+1),u(fx)),l(h(ix,iy+1,iz+1),h(ix+1,iy+1,iz+1),u(fx)),u(fy)),u(fz))}
+const fbm=(x,y,z,o=4)=>{let s=0,a=.5,f=1;for(let i=0;i<o;i++){s+=a*noise3(x*f,y*f,z*f);a/=2;f*=2}return s};
+
+/* ===== Three.js: hero Earth ===== */
+function earthTextures(){const W=mobile?512:1024,H=W/2,mk=()=>{const c=document.createElement('canvas');c.width=W;c.height=H;return c},
+ dc=mk(),nc=mk(),cc=mk(),d=dc.getContext('2d'),n=nc.getContext('2d'),c=cc.getContext('2d'),di=d.createImageData(W,H),ni=n.createImageData(W,H),ci=c.createImageData(W,H);
+ for(let y=0;y<H;y++)for(let x=0;x<W;x++){const lon=x/W*Math.PI*2,lat=(y/H-.5)*Math.PI,px=Math.cos(lat)*Math.cos(lon),py=Math.sin(lat),pz=Math.cos(lat)*Math.sin(lon),
+  e=fbm(px*2.2+5,py*2.2+5,pz*2.2+5,5),land=e>.52,i=(y*W+x)*4,pol=Math.abs(py),cl=fbm(px*3+20,py*3.4+20,pz*3+20,5);
+  let r,g,b;if(land){const h=(e-.52)*5,dry=fbm(px*4,py*4,pz*4,3)*(1-pol);r=40+h*90+dry*90;g=100+h*40+(1-dry)*50;b=50+h*30;if(pol>.82){r=g=b=235}}else{const dp=(.52-e)*4;r=6;g=40+40*(1-dp);b=90+70*(1-dp)*1.1}
+  di.data.set([r,g,b,255],i);const li=land&&pol<.8&&fbm(px*9+3,py*9,pz*9,3)>.56&&Math.random()>.55;ni.data.set(li?[255,205,110,255]:[0,0,0,255],i);
+  const k=Math.max(0,(cl-.5)*4)*255;ci.data.set([255,255,255,k],i)}
+ d.putImageData(di,0,0);n.putImageData(ni,0,0);c.putImageData(ci,0,0);
+ return [dc,nc,cc].map(x=>{const t=new THREE.CanvasTexture(x);t.anisotropy=4;return t})}
+function initHero(){
+ const cv=$('#hero-cv'),R=new THREE.WebGLRenderer({canvas:cv,antialias:!mobile,alpha:true});R.setPixelRatio(Math.min(devicePixelRatio,mobile?1.5:2));
+ const S=new THREE.Scene(),cam=new THREE.PerspectiveCamera(40,1,.1,100);cam.position.set(0,0,7);
+ const [dt,nt,ct]=earthTextures(),sun=new THREE.Vector3(-4,1.5,4).normalize();
+ const earth=new THREE.Mesh(new THREE.SphereGeometry(2,mobile?48:96,mobile?48:96),new THREE.ShaderMaterial({uniforms:{d:{value:dt},n:{value:nt},sun:{value:sun}},
+  vertexShader:'varying vec2 u;varying vec3 N;void main(){u=uv;N=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+  fragmentShader:'uniform sampler2D d,n;uniform vec3 sun;varying vec2 u;varying vec3 N;void main(){float l=dot(normalize(N),sun);float day=smoothstep(-.12,.25,l);vec3 c=texture2D(d,u).rgb*(.08+day*1.05);vec3 lt=texture2D(n,u).rgb*(1.-day)*1.4;gl_FragColor=vec4(c+lt,1.);}'}));
+ const clouds=new THREE.Mesh(new THREE.SphereGeometry(2.04,64,64),new THREE.MeshLambertMaterial({map:ct,transparent:true,opacity:.75,depthWrite:false}));
+ const atmo=(r,col,p,o)=>new THREE.Mesh(new THREE.SphereGeometry(r,64,64),new THREE.ShaderMaterial({transparent:true,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false,uniforms:{c:{value:new THREE.Color(col)}},
+  vertexShader:'varying vec3 n;void main(){n=normalize(normalMatrix*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+  fragmentShader:`uniform vec3 c;varying vec3 n;void main(){float i=pow(${p.toFixed(1)}-dot(n,vec3(0,0,1.)),3.);gl_FragColor=vec4(c,1.)*i*${o.toFixed(2)};}`}));
+ const g=new THREE.Group();g.add(earth,clouds,atmo(2.35,0x00d68f,.62,1.2),atmo(2.7,0x2f9bff,.55,.5));
+ // renewable accents: orbiting energy ring with glowing nodes
+ const ring=new THREE.Group(),rm=new THREE.Mesh(new THREE.TorusGeometry(2.75,.008,8,160),new THREE.MeshBasicMaterial({color:0xc5ff6a,transparent:true,opacity:.5}));ring.add(rm);
+ const nodes=[];for(let i=0;i<6;i++){const m=new THREE.Mesh(new THREE.SphereGeometry(.045,12,12),new THREE.MeshBasicMaterial({color:0xc5ff6a}));ring.add(m);nodes.push(m)}
+ ring.rotation.set(1.25,.3,0);g.add(ring);S.add(g);S.add(new THREE.AmbientLight(0x335544,.5));const dl=new THREE.DirectionalLight(0xfff2d6,1.6);dl.position.copy(sun).multiplyScalar(10);S.add(dl);
+ const sp=mobile?500:1400,sa=new Float32Array(sp*3);for(let i=0;i<sp;i++){const r=30+Math.random()*30,t=Math.random()*6.283,p=Math.acos(2*Math.random()-1);sa.set([r*Math.sin(p)*Math.cos(t),r*Math.cos(p),r*Math.sin(p)*Math.sin(t)],i*3)}
+ const sg=new THREE.BufferGeometry();sg.setAttribute('position',new THREE.BufferAttribute(sa,3));const stars=new THREE.Points(sg,new THREE.PointsMaterial({size:.09,color:0xdfffe8,transparent:true,opacity:.8}));S.add(stars);
+ let mx=0,my=0,tx=0,ty=0,run=false,id,t0=performance.now();
+ const place=()=>{sizeRenderer(R,cv,cam);const w=innerWidth;if(w>900){g.position.set(2.5,0,0);g.scale.setScalar(1)}else{g.position.set(0,-1.6,-1.5);g.scale.setScalar(.85)}};
+ const pm=e=>{tx=(e.clientX/innerWidth-.5)*2;ty=(e.clientY/innerHeight-.5)*2};addEventListener('pointermove',pm,{passive:true});
+ addEventListener('resize',place);place();
+ g.scale.multiplyScalar(.01);const ent={v:0};
+ function frame(now){id=requestAnimationFrame(frame);const dt2=Math.min((now-t0)/1000,.05);t0=now;mx+=(tx-mx)*.05;my+=(ty-my)*.05;
+  if(ent.v<1){ent.v=Math.min(1,ent.v+dt2*.7);const e=1-Math.pow(1-ent.v,4),base=innerWidth>900?1:.85;g.scale.setScalar(base*(.3+.7*e))}
+  earth.rotation.y+=dt2*.06;clouds.rotation.y+=dt2*.08;ring.rotation.z+=dt2*.12;
+  nodes.forEach((m,i)=>{const a=now*.0004+i*1.047;m.position.set(Math.cos(a)*2.75,Math.sin(a)*2.75,0)});stars.rotation.y+=dt2*.004;
+  g.rotation.x=my*.12;g.rotation.y=mx*.2;cam.position.x=mx*.3;cam.position.y=-my*.2+Math.sin(now*.0003)*.08;cam.lookAt(0,0,0);R.render(S,cam)}
+ const start=()=>{if(!run&&!reduce||!run&&reduce&&!id){run=true;t0=performance.now();id=requestAnimationFrame(frame)}},stop=()=>{run=false;cancelAnimationFrame(id)};
+ if(reduce){ent.v=1;g.scale.setScalar(innerWidth>900?1:.85);R.render(S,cam);addEventListener('resize',()=>R.render(S,cam))}else runWhenVisible($('#home'),start,stop);
+}
+
+/* ===== Three.js: renewable landscape ===== */
+const INFO={wind:['Wind power','Moving air spins the blades, which turn a generator. Output rises quickly with wind speed, so site selection matters.'],solar:['Solar power','Photovoltaic cells release electrons when sunlight hits them, producing direct current that an inverter converts for the grid.'],city:['Smart buildings','Efficient design, heat pumps, and smart controls cut energy demand. Rooftop solar can supply some of what is left.'],grid:['Energy flow','The glowing particles show electricity moving from generators to buildings. Real grids balance supply and demand with storage and control systems.']};
+function initLab(){
+ const cv=$('#lab-cv'),R=new THREE.WebGLRenderer({canvas:cv,antialias:!mobile});R.setPixelRatio(Math.min(devicePixelRatio,mobile?1.25:2));
+ if(!mobile){R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap}
+ const S=new THREE.Scene();S.background=new THREE.Color(0x14463a);S.fog=new THREE.Fog(0x14463a,22,52);
+ const cam=new THREE.PerspectiveCamera(45,1,.1,100),tgt=new THREE.Vector3(0,1.5,0);let yaw=.6,pit=.45,dist=20,ty=yaw,tp=pit;
+ const hemi=new THREE.HemisphereLight(0xd8ffe8,0x1a3a2a,.9);S.add(hemi);const sun=new THREE.DirectionalLight(0xfff0cc,1.5);sun.position.set(12,16,8);
+ if(!mobile){sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-16,right:16,top:16,bottom:-16});}S.add(sun);
+ const hgt=(x,z)=>{const d=Math.hypot(x,z),f=Math.min(1,d/9);return (Math.sin(x*.3)*Math.cos(z*.25)*1.4+Math.sin(x*.12+z*.17)*2)*f*f};
+ const gg=new THREE.PlaneGeometry(40,40,mobile?40:70,mobile?40:70);gg.rotateX(-Math.PI/2);const pa=gg.attributes.position,col=[];
+ for(let i=0;i<pa.count;i++){const h=hgt(pa.getX(i),pa.getZ(i));pa.setY(i,h);const c=new THREE.Color().setHSL(.33-h*.01,.5,.28+h*.05);col.push(c.r,c.g,c.b)}
+ gg.setAttribute('color',new THREE.Float32BufferAttribute(col,3));gg.computeVertexNormals();
+ const ground=new THREE.Mesh(gg,new THREE.MeshStandardMaterial({vertexColors:true,roughness:.95,flatShading:true}));ground.receiveShadow=true;S.add(ground);
+ const pick=[],add=(o,kind)=>{o.traverse(c=>{c.userData.kind=kind;if(c.isMesh){c.castShadow=!mobile}});S.add(o);pick.push(o);return o};
+ const white=new THREE.MeshStandardMaterial({color:0xf4f7f1,roughness:.4}),rotors=[];
+ [[-7,-4],[-3,-9],[6,-7],[-10,3],[9,2]].forEach(([x,z],i)=>{const g=new THREE.Group(),h=hgt(x,z),s=.9+(i%3)*.12;
+  const pole=new THREE.Mesh(new THREE.CylinderGeometry(.1*s,.2*s,5*s,10),white);pole.position.y=2.5*s;const hub=new THREE.Group();hub.position.set(0,5*s,.2);
+  for(let b=0;b<3;b++){const bl=new THREE.Mesh(new THREE.BoxGeometry(.18*s,2.4*s,.05),white);bl.position.y=1.2*s;const pv=new THREE.Group();pv.rotation.z=b*2.094;pv.add(bl);hub.add(pv)}
+  hub.add(new THREE.Mesh(new THREE.SphereGeometry(.22*s,12,12),new THREE.MeshStandardMaterial({color:0xc5ff6a,emissive:0x558800})));g.add(pole,hub);g.position.set(x,h,z);g.rotation.y=.4;rotors.push([hub,.6+i*.12]);add(g,'wind')});
+ const panelMat=new THREE.MeshStandardMaterial({color:0x0a2a55,metalness:.9,roughness:.12,emissive:0x061428});
+ const solar=new THREE.Group();for(let r=0;r<2;r++)for(let c=0;c<4;c++){const p=new THREE.Mesh(new THREE.BoxGeometry(1.5,.06,1),panelMat);p.position.set(c*1.7-2.6,.7+r*.05,r*1.3);p.rotation.x=-.5;const leg=new THREE.Mesh(new THREE.BoxGeometry(.06,.6,.06),white);leg.position.set(p.position.x,.3,p.position.z);solar.add(p,leg)}
+ solar.position.set(3.5,hgt(3.5,5)+.05,5.5);solar.rotation.y=-.3;add(solar,'solar');
+ const bm=new THREE.MeshStandardMaterial({color:0xe9f2e6,roughness:.5}),gm=new THREE.MeshStandardMaterial({color:0x7fffd0,emissive:0x00b078,emissiveIntensity:.8}),bld=[];
+ [[-3,3,1.4,3],[-1.2,4.2,1.1,2],[-4.4,5,1.1,1.6],[0,1.2,1,1.3]].forEach(([x,z,w,h])=>{const g=new THREE.Group();const b=new THREE.Mesh(new THREE.BoxGeometry(w,h,w),bm);b.position.y=h/2;const w2=new THREE.Mesh(new THREE.BoxGeometry(w*1.02,.12,w*1.02),gm);w2.position.y=h*.7;const roof=new THREE.Mesh(new THREE.BoxGeometry(w*.8,.08,w*.8),new THREE.MeshStandardMaterial({color:0x2a8c4a}));roof.position.y=h+.05;g.add(b,w2,roof);g.position.set(x,hgt(x,z),z);add(g,'city');bld.push(g.position.clone().setY(g.position.y+h))});
+ const tm=new THREE.MeshStandardMaterial({color:0x1f8a4c,flatShading:true}),tk=new THREE.MeshStandardMaterial({color:0x5a3d28});
+ for(let i=0;i<(mobile?25:55);i++){const a=Math.random()*6.283,r=5+Math.random()*13,x=Math.cos(a)*r,z=Math.sin(a)*r;if(Math.abs(x-3.5)<4&&Math.abs(z-5.5)<3)continue;const s=.5+Math.random()*.7,t=new THREE.Group(),tr=new THREE.Mesh(new THREE.CylinderGeometry(.06*s,.08*s,.5*s,6),tk);tr.position.y=.25*s;const cn=new THREE.Mesh(new THREE.ConeGeometry(.4*s,1.3*s,7),tm);cn.position.y=1*s;cn.castShadow=!mobile;t.add(tr,cn);t.position.set(x,hgt(x,z),z);S.add(t)}
+ // energy particles along curves from turbines to buildings
+ const curves=[];rotors.forEach(([h],i)=>{const a=new THREE.Vector3();h.getWorldPosition(a);const b=bld[i%bld.length],m=a.clone().lerp(b,.5);m.y+=1.5;curves.push(new THREE.QuadraticBezierCurve3(a,m,b))});
+ const sc=solar.position.clone();sc.y+=.8;curves.push(new THREE.QuadraticBezierCurve3(sc,sc.clone().lerp(bld[0],.5).add(new THREE.Vector3(0,1,0)),bld[0]));
+ const NP=mobile?10:18,pg=new THREE.BufferGeometry(),pp=new Float32Array(curves.length*NP*3);pg.setAttribute('position',new THREE.BufferAttribute(pp,3));
+ const pts=new THREE.Points(pg,new THREE.PointsMaterial({color:0xc5ff6a,size:.22,transparent:true,opacity:.95,blending:THREE.AdditiveBlending,depthWrite:false}));pts.frustumCulled=false;S.add(pts);
+ const lines=new THREE.Group();curves.forEach(c=>lines.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(c.getPoints(30)),new THREE.LineBasicMaterial({color:0x00d68f,transparent:true,opacity:.35}))));S.add(lines);
+ // interaction
+ const ray=new THREE.Raycaster(),ptr=new THREE.Vector2();let drag=false,moved=0,lx=0,ly=0,pulse=null,pt=0;
+ const panel=$('#panel');function show(k){const i=INFO[k];if(!i)return;panel.innerHTML=`<h3>${i[0]}</h3><p>${i[1]}</p>`;$$('.tabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));pulse=k;pt=0;
+  if(hasGSAP&&!reduce)gsap.fromTo(panel,{y:12,opacity:.2},{y:0,opacity:1,duration:.5,ease:'power3.out'});lines.visible=true;lines.children.forEach(l=>l.material.opacity=k==='grid'?.9:.35)}
+ $$('.tabs button').forEach(b=>b.onclick=()=>show(b.dataset.k));
+ cv.addEventListener('pointerdown',e=>{drag=true;moved=0;lx=e.clientX;ly=e.clientY;cv.setPointerCapture(e.pointerId);cv.style.cursor='grabbing'});
+ cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();ptr.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);
+  if(drag){moved+=Math.abs(e.clientX-lx)+Math.abs(e.clientY-ly);ty-=(e.clientX-lx)*.006;tp=Math.min(1.1,Math.max(.15,tp+(e.clientY-ly)*.004));lx=e.clientX;ly=e.clientY}});
+ cv.addEventListener('pointerup',e=>{drag=false;cv.style.cursor='grab';if(moved<6){ray.setFromCamera(ptr,cam);const h=ray.intersectObjects(pick,true)[0];if(h)show(h.object.userData.kind)}});
+ cv.addEventListener('wheel',e=>{if(e.ctrlKey){e.preventDefault();dist=Math.min(28,Math.max(12,dist+e.deltaY*.02))}},{passive:false});
+ const place=()=>sizeRenderer(R,cv,cam);addEventListener('resize',place);place();
+ let id,run=false,t0=performance.now();
+ function frame(now){id=requestAnimationFrame(frame);const dt=(now-t0)/1000;t0=now;
+  if(!drag&&!reduce)ty+=dt*.03;yaw+=(ty-yaw)*.08;pit+=(tp-pit)*.08;
+  cam.position.set(tgt.x+Math.sin(yaw)*Math.cos(pit)*dist,tgt.y+Math.sin(pit)*dist,tgt.z+Math.cos(yaw)*Math.cos(pit)*dist);cam.lookAt(tgt);
+  if(!reduce)rotors.forEach(([h,s])=>h.rotation.z-=dt*s*(pulse==='wind'?4:2));
+  let k=0;curves.forEach((c,i)=>{for(let j=0;j<NP;j++){const p=c.getPoint(((now*.00018*(pulse==='grid'?2.5:1))+j/NP+i*.13)%1);pp[k++]=p.x;pp[k++]=p.y;pp[k++]=p.z}});pg.attributes.position.needsUpdate=true;
+  if(pulse){pt+=dt;const e=1+Math.max(0,Math.sin(pt*6))*.04*Math.max(0,1-pt/1.2);pick.forEach(o=>o.scale.setScalar(o.userData.kind2===undefined&&o.children[0]&&pulse!=='grid'&&o.children.some(c=>c.userData.kind===pulse)?e:1))}
+  R.render(S,cam)}
+ const start=()=>{if(!run){run=true;t0=performance.now();id=requestAnimationFrame(frame)}},stop=()=>{run=false;cancelAnimationFrame(id)};
+ runWhenVisible($('#stage'),start,stop);
+}
+/* Lazy-init the 3D scenes; keep the site fully usable without them */
+function boot(){
+ if(!GL){const s=$('#stage');s.innerHTML='<div style="display:grid;place-items:center;height:100%;padding:2rem;text-align:center;color:#9DB5A6">3D view unavailable on this device. Here is what it shows: wind turbines, solar panels, and efficient buildings connected by clean power.</div>';$$('.tabs button').forEach(b=>b.onclick=()=>{const i=INFO[b.dataset.k];s.firstChild.textContent=i[0]+': '+i[1];$$('.tabs button').forEach(x=>x.setAttribute('aria-pressed',x===b))});return}
+ try{initHero()}catch(e){console.warn(e);$('#home').classList.add('nogl')}
+ const so=new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();try{initLab()}catch(e){console.warn(e)}}},{rootMargin:'400px'});so.observe($('#lab'));
+}
+boot();
+</script>
+</body>
+</html>
